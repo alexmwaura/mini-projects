@@ -29,6 +29,18 @@ public class App {
             model.put("sender", sender);
             return new ModelAndView(model, "greeting_card.hbs");
         }, new HandlebarsTemplateEngine());
+        get("/welcome", (req,res)-> {
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("username", req.session().attribute("username"));
+            return new ModelAndView(model, "welcome.hbs");
+        }, new HandlebarsTemplateEngine());
+        post("/welcome-user",(req,res) -> {
+           Map<String, Object> model = new HashMap<String, Object>();
+           String username = req.queryParams("username");
+           req.session().attribute("username", username);
+           model.put("username", username);
+           return new ModelAndView(model, "welcome.hbs");
+        }, new HandlebarsTemplateEngine());
     }
 
 }
